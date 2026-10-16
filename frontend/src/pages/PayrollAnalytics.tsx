@@ -226,8 +226,7 @@ function buildMockData(startDate: string, endDate: string): AnalyticsData {
 
 // ── CSV Export ────────────────────────────────────────────────────────────────
 
-export function exportDashboardCsv(data: AnalyticsData):
- void {
+export function exportDashboardCsv(data: AnalyticsData): void {
   const rows: string[] = [
     'Section,Metric/Dimension,Value',
     `Summary,Total Payroll,${data.summary.totalPayroll}`,
@@ -263,7 +262,12 @@ export function exportDashboardCsv(data: AnalyticsData):
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-const COLORS = ['var(--chart-1, #3b82f6)', 'var(--chart-2, #10b981)', 'var(--chart-3, #f59e0b)', 'var(--chart-4, #ef4444)'];
+const COLORS = [
+  'var(--chart-1, #3b82f6)',
+  'var(--chart-2, #10b981)',
+  'var(--chart-3, #f59e0b)',
+  'var(--chart-4, #ef4444)',
+];
 
 export default function PayrollAnalytics() {
   const [orgId] = useState<number>(1);
@@ -409,7 +413,9 @@ export default function PayrollAnalytics() {
           </Card>
           <Card>
             <div className="p-4">
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Total Transactions</p>
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Total Transactions
+              </p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                 {activeData.summary.totalTransactions.toLocaleString()}
               </p>
@@ -425,7 +431,9 @@ export default function PayrollAnalytics() {
           </Card>
           <Card>
             <div className="p-4">
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Active Employees</p>
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Active Employees
+              </p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                 {activeData.summary.activeEmployees.toLocaleString()}
               </p>
@@ -441,7 +449,9 @@ export default function PayrollAnalytics() {
           <div className="p-5" ref={trendCardRef}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-semibold text-gray-900 dark:text-white">Payroll Cost Trend</h2>
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Payroll Cost Trend
+                </h2>
                 <p className="text-xs text-gray-500">Historical outlays over time</p>
               </div>
               <div className="flex items-center gap-2">
@@ -483,7 +493,11 @@ export default function PayrollAnalytics() {
               <ResponsiveContainer width="100%" height="100%">
                 {trendChartType === 'line' ? (
                   <LineChart data={activeData.trends}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} {...getCartesianGridAnimationProps(reduceMotion)} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      opacity={0.2}
+                      {...getCartesianGridAnimationProps(reduceMotion)}
+                    />
                     <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip />
@@ -499,7 +513,11 @@ export default function PayrollAnalytics() {
                   </LineChart>
                 ) : (
                   <AreaChart data={activeData.trends}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} {...getCartesianGridAnimationProps(reduceMotion)} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      opacity={0.2}
+                      {...getCartesianGridAnimationProps(reduceMotion)}
+                    />
                     <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip />
@@ -525,7 +543,9 @@ export default function PayrollAnalytics() {
           <div className="p-5" ref={currencyCardRef}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-semibold text-gray-900 dark:text-white">Currency Breakdown</h2>
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Currency Breakdown
+                </h2>
                 <p className="text-xs text-gray-500">Distribution by asset code</p>
               </div>
               <div className="flex items-center gap-2">
@@ -555,7 +575,9 @@ export default function PayrollAnalytics() {
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
-                    label={(props: PieLabelRenderProps) => `${props.name ?? ''}: ${props.value ?? 0}%`}
+                    label={(props: PieLabelRenderProps) =>
+                      `${props.name ?? ''}: ${props.value ?? 0}%`
+                    }
                     {...getPieAnimationProps(reduceMotion)}
                   >
                     {activeData.currencyBreakdown.map((_, index) => (
@@ -575,7 +597,9 @@ export default function PayrollAnalytics() {
           <div className="p-5" ref={paymentCardRef}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-semibold text-gray-900 dark:text-white">Transaction Status Metrics</h2>
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Transaction Status Metrics
+                </h2>
                 <p className="text-xs text-gray-500">Success vs failure breakdown</p>
               </div>
               <div className="flex items-center gap-2">
@@ -598,14 +622,33 @@ export default function PayrollAnalytics() {
             <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={activeData.paymentMetrics}>
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} {...getCartesianGridAnimationProps(reduceMotion)} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    opacity={0.2}
+                    {...getCartesianGridAnimationProps(reduceMotion)}
+                  />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} />
                   <Tooltip />
                   <SafeLegend />
-                  <Bar dataKey="success" fill="var(--chart-4, #10b981)" name="Successful" {...getBarAnimationProps(reduceMotion)} />
-                  <Bar dataKey="failure" fill="var(--chart-5, #ef4444)" name="Failed" {...getBarAnimationProps(reduceMotion)} />
-                  <Bar dataKey="pending" fill="var(--chart-3, #f59e0b)" name="Pending" {...getBarAnimationProps(reduceMotion)} />
+                  <Bar
+                    dataKey="success"
+                    fill="var(--chart-4, #10b981)"
+                    name="Successful"
+                    {...getBarAnimationProps(reduceMotion)}
+                  />
+                  <Bar
+                    dataKey="failure"
+                    fill="var(--chart-5, #ef4444)"
+                    name="Failed"
+                    {...getBarAnimationProps(reduceMotion)}
+                  />
+                  <Bar
+                    dataKey="pending"
+                    fill="var(--chart-3, #f59e0b)"
+                    name="Pending"
+                    {...getBarAnimationProps(reduceMotion)}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -617,7 +660,9 @@ export default function PayrollAnalytics() {
           <div className="p-5" ref={deptCardRef}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-semibold text-gray-900 dark:text-white">Department Cost Distribution</h2>
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Department Cost Distribution
+                </h2>
                 <p className="text-xs text-gray-500">Cost by department</p>
               </div>
               <div className="flex items-center gap-2">
@@ -640,12 +685,21 @@ export default function PayrollAnalytics() {
             <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={activeData.departmentBreakdown} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} {...getCartesianGridAnimationProps(reduceMotion)} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    opacity={0.2}
+                    {...getCartesianGridAnimationProps(reduceMotion)}
+                  />
                   <XAxis type="number" tick={{ fontSize: 12 }} />
                   <YAxis dataKey="department" type="category" tick={{ fontSize: 12 }} width={90} />
                   <Tooltip />
                   <SafeLegend />
-                  <Bar dataKey="total" fill="var(--chart-2, #10b981)" name="Total Cost ($)" {...getBarAnimationProps(reduceMotion)} />
+                  <Bar
+                    dataKey="total"
+                    fill="var(--chart-2, #10b981)"
+                    name="Total Cost ($)"
+                    {...getBarAnimationProps(reduceMotion)}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -657,14 +711,17 @@ export default function PayrollAnalytics() {
       {showForecastModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
+            transition={reduceMotion ? { duration: 0 } : undefined}
             className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-2xl w-full p-6 space-y-6 border border-gray-200 dark:border-gray-800"
           >
             <div className="flex items-center justify-between border-b pb-4 border-gray-200 dark:border-gray-800">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Payroll Cost Forecast Agent</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Payroll Cost Forecast Agent
+                </h3>
               </div>
               <button
                 onClick={() => setShowForecastModal(false)}
@@ -716,10 +773,15 @@ export default function PayrollAnalytics() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Agent Insights & Recommendations</h4>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                    Agent Insights & Recommendations
+                  </h4>
                   <ul className="space-y-2">
                     {forecastQuery.data.recommendations.map((rec, idx) => (
-                      <li key={idx} className="text-xs bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-200 p-3 rounded-lg flex items-start gap-2">
+                      <li
+                        key={idx}
+                        className="text-xs bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-200 p-3 rounded-lg flex items-start gap-2"
+                      >
                         <span className="font-bold">•</span>
                         <span>{rec}</span>
                       </li>
