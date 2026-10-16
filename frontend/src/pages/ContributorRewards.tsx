@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './ContributorRewards.module.css';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import ContributorRewardStatus from '../components/ContributorRewardStatus';
 
 const RewardTier = ({
   tier,
@@ -215,6 +216,7 @@ const ContributorRewards: React.FC = () => {
       </div>
 
       {/* Requirements Section */}
+      <ContributorRewardStatus />
       <div className="p-12 glass noise rounded-3xl border border-white/10 text-center">
         <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8">
           <Wallet className="w-8 h-8 text-(--accent)" />
