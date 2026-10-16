@@ -295,28 +295,43 @@ export function PlanComparisonTable({
         </p>
 
         {/* Billing Cycle Toggle */}
-        <div className="mt-8 inline-flex items-center p-1.5 rounded-full bg-(--surface-hi) border border-(--border-hi) shadow-inner">
+        <div
+          aria-label={t('comparison.billingCycle', 'Billing Cycle')}
+          className="mt-8 inline-flex items-center p-1.5 rounded-full bg-(--surface-hi) border border-(--border-hi) shadow-inner"
+        >
           <button
             type="button"
+            aria-pressed={billingCycle === 'monthly'}
             onClick={() => setBillingCycle('monthly')}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                setBillingCycle('annual');
+              }
+            }}
             className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent) ${
               billingCycle === 'monthly'
                 ? 'bg-(--accent) text-(--on-accent) shadow-sm'
                 : 'text-(--muted) hover:text-(--text)'
             }`}
-            aria-pressed={billingCycle === 'monthly'}
           >
             {t('comparison.monthly', 'Monthly Billing')}
           </button>
           <button
             type="button"
+            aria-pressed={billingCycle === 'annual'}
             onClick={() => setBillingCycle('annual')}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                setBillingCycle('monthly');
+              }
+            }}
             className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent) ${
               billingCycle === 'annual'
                 ? 'bg-(--accent) text-(--on-accent) shadow-sm'
                 : 'text-(--muted) hover:text-(--text)'
             }`}
-            aria-pressed={billingCycle === 'annual'}
           >
             <span>{t('comparison.annual', 'Annual Billing')}</span>
             <span
@@ -340,13 +355,28 @@ export function PlanComparisonTable({
         >
           {t('comparison.selectTier', 'Select Tier to Compare')}
         </label>
-        <div className="grid grid-cols-3 gap-2 p-1.5 rounded-xl bg-(--surface-hi) border border-(--border-hi)">
-          {plans.map((p) => (
+        <div
+          aria-label={t('comparison.selectTier', 'Select Tier to Compare')}
+          className="grid grid-cols-3 gap-2 p-1.5 rounded-xl bg-(--surface-hi) border border-(--border-hi)"
+        >
+          {plans.map((p, idx) => (
             <button
               key={p.id}
               type="button"
+              aria-pressed={selectedMobileTier === p.id}
               onClick={() => setSelectedMobileTier(p.id)}
-              className={`py-2 px-2 text-xs font-bold rounded-lg transition-colors text-center ${
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  const nextPlan = plans[(idx + 1) % plans.length];
+                  if (nextPlan) setSelectedMobileTier(nextPlan.id);
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  const prevPlan = plans[(idx - 1 + plans.length) % plans.length];
+                  if (prevPlan) setSelectedMobileTier(prevPlan.id);
+                }
+              }}
+              className={`py-2 px-2 text-xs font-bold rounded-lg transition-colors text-center focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--accent) ${
                 selectedMobileTier === p.id
                   ? 'bg-(--accent) text-(--on-accent) shadow-sm'
                   : 'text-(--muted) hover:text-(--text)'
@@ -569,18 +599,28 @@ export function PlanComparisonTable({
                           >
                             {typeof val === 'boolean' ? (
                               val ? (
-                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-(--accent2)/15 text-(--accent2)">
+                                <span
+                                  role="img"
+                                  aria-label={`Included in ${plan.name}`}
+                                  className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-(--accent2)/15 text-(--accent2)"
+                                >
                                   <Check
                                     className="w-4 h-4 stroke-[3]"
-                                    aria-label={`Included in ${plan.name}`}
+                                    aria-hidden="true"
                                   />
+                                  <span className="sr-only">Included in {plan.name}</span>
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-(--border)/30 text-(--muted)/60">
+                                <span
+                                  role="img"
+                                  aria-label={`Not included in ${plan.name}`}
+                                  className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-(--border)/30 text-(--muted)/60"
+                                >
                                   <X
                                     className="w-4 h-4"
-                                    aria-label={`Not included in ${plan.name}`}
+                                    aria-hidden="true"
                                   />
+                                  <span className="sr-only">Not included in {plan.name}</span>
                                 </span>
                               )
                             ) : (
