@@ -642,6 +642,34 @@ h6 {
   transition-delay: var(--motion-popover-delay, 0ms);
 }
 
+.motion-drawer-in {
+  animation: motionDrawerIn var(--motion-duration-normal) var(--motion-ease-out) both;
+}
+
+.motion-fade-in {
+  animation: motionFadeIn var(--motion-duration-normal) var(--motion-ease-out) both;
+}
+
+@keyframes motionDrawerIn {
+  from {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes motionFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes motionPopoverIn {
   from {
     opacity: 0;
