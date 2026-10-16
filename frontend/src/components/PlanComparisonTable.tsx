@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Check, X, ArrowRight, Sparkles, Shield, Zap } from 'lucide-react';
+import { Check, X, Sparkles, Shield, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useReducedMotion } from '../hooks/useReducedMotion';
+import { ArrowAnchor } from './common/Button';
 
 export type BillingCycle = 'monthly' | 'annual';
 
@@ -257,7 +257,6 @@ export function PlanComparisonTable({
   className = '',
 }: PlanComparisonTableProps) {
   const { t } = useTranslation();
-  const prefersReducedMotion = useReducedMotion();
   const [billingCycle, setBillingCycle] = useState<BillingCycle>(defaultBillingCycle);
   const [selectedMobileTier, setSelectedMobileTier] = useState<string>(
     plans[1]?.id ?? plans[0]?.id ?? 'managed'
@@ -448,7 +447,7 @@ export function PlanComparisonTable({
 
                 {plan.secondaryLinkText && (
                   <div className="text-center">
-                    <a
+                    <ArrowAnchor
                       href={plan.secondaryLinkHref ?? '#'}
                       onClick={(e) => {
                         if (plan.onSecondaryLinkClick) {
@@ -456,16 +455,10 @@ export function PlanComparisonTable({
                           plan.onSecondaryLinkClick();
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-(--accent) hover:text-(--accent3) transition-colors group"
+                      className="text-xs transition-colors group"
                     >
-                      <span>{plan.secondaryLinkText}</span>
-                      <ArrowRight
-                        className={`w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1 ${
-                          prefersReducedMotion ? 'group-hover:translate-x-0' : ''
-                        }`}
-                        aria-hidden="true"
-                      />
-                    </a>
+                      {plan.secondaryLinkText}
+                    </ArrowAnchor>
                   </div>
                 )}
               </div>
